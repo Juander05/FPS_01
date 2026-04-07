@@ -3,7 +3,12 @@ guid: f973b6aee4a0ffa419da8719686c8eff
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: pinturasubfusil
+    second: {fileID: 2800000, guid: 85808f98acea38b4790b85a0f8a607a3, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
