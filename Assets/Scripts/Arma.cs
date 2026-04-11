@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Arma : MonoBehaviour{
+public class Arma {
    
 	public float alcance;
 	public float frecuenciaDisparo;
