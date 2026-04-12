@@ -11064,7 +11064,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   particulasDisparo: {fileID: 6185536826384269906}
-  impacto: {fileID: 0}
+  impacto: {fileID: 2695941719300977822, guid: d0467414c35f2b349a4bb1219e454466, type: 3}
 --- !u!1 &8827496882060883632
 GameObject:
   m_ObjectHideFlags: 0
