@@ -21,6 +21,14 @@ public class VidasPlayer : MonoBehaviour{
 	public GameObject fm;	//Instancia del filemanager para acceder al metodo SaveToFile
 	
     void Start(){
+		txtPuntos = GameObject.Find("txtPuntos").GetComponent<Text>();
+		vidaPlayer = GameObject.Find("VidaPlayer").GetComponent<Image>();
+		gameOver = GameObject.Find("GameOver");
+		fm = GameObject.Find("FileManager");
+		Debug.Log("txtPuntos: " + txtPuntos);
+		Debug.Log("vidaPlayer: " + vidaPlayer);
+		Debug.Log("gameOver: " + gameOver);
+		Debug.Log("fm: " + fm);
 	    anchoVidasPlayer = vidaPlayer.GetComponent<RectTransform>().sizeDelta.x;
 	    haMuerto = false;
 	    vida = vidaINI;
