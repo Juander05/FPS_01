@@ -31,7 +31,9 @@ public class ManagerCuarto : MonoBehaviour
         Vector3 posicionAparicion = new Vector3(Random.Range(-7f, 2f), 1, Random.Range(-2f, 2f)); // Corregir el '<1>' dependiendo del scenario
         
         if (PhotonNetwork.InRoom) {
-            PhotonNetwork.Instantiate("PlayerOnline", posicionAparicion, Quaternion.identity);
+            GameObject instanciaPlayer = PhotonNetwork.Instantiate("PlayerOnline",posicionAparicion,Quaternion.identity);
+            instanciaPlayer.name="PlayerOnline"+PhotonNetwork.CurrentRoom.PlayerCount.ToString();
+            //PhotonNetwork.Instantiate("PlayerOnline", posicionAparicion, Quaternion.identity);
         } else {
             Instantiate(Resources.Load("PlayerOnline"), posicionAparicion, Quaternion.identity);
         }
