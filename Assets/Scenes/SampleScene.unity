@@ -1498,6 +1498,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 341948455}
   m_CullTransparentMesh: 1
+--- !u!1 &376974693
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 376974694}
+  - component: {fileID: 376974696}
+  - component: {fileID: 376974695}
+  m_Layer: 5
+  m_Name: txtGameOver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &376974694
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376974693}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1584742361}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 241.3, y: -500}
+  m_SizeDelta: {x: 1000, y: 500}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &376974695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376974693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 100
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 100
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Game Over
+--- !u!222 &376974696
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376974693}
+  m_CullTransparentMesh: 1
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -2895,7 +2974,7 @@ MonoBehaviour:
   - {fileID: 198889628}
   - {fileID: 1917489706}
   - {fileID: 2074720740}
-  prefabEnemigo: {fileID: 3860391611604618248, guid: 620e8b6ae953f064990346104979c303, type: 3}
+  pv: {fileID: 0}
 --- !u!4 &1031569916
 Transform:
   m_ObjectHideFlags: 0
@@ -4598,7 +4677,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1584742361
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4610,7 +4689,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 376974694}
   m_Father: {fileID: 2119879373}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4631,7 +4711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9622642, g: 0.027233727, b: 0.06539287, a: 0.6039216}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5299,7 +5379,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VidasPlayer
   vidaPlayer: {fileID: 926380872}
+  vida: 0
   gameOver: {fileID: 1584742360}
+  puedePerderVida: 1
   txtPuntos: {fileID: 49659930}
   txtRecord: {fileID: 500168509}
   nombreR: {fileID: 600181728}
@@ -5355,8 +5437,6 @@ MonoBehaviour:
   playerCamera: {fileID: 1062208145}
   objFusil: {fileID: 1973275152}
   objSniper: {fileID: 1959854079}
-  fusil: {fileID: 0}
-  sniper: {fileID: 0}
   rango: 77.7
   frecuenciaDisparo: 0.25
   "da\xF1oCausado": 1
@@ -6093,6 +6173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IAEnemigo
   agente: {fileID: 1971564319}
   hordas: {fileID: 0}
+  pvEnemigo: {fileID: 0}
 --- !u!195 &1971564319
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6427,6 +6508,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IAEnemigo
   agente: {fileID: 2058071250}
   hordas: {fileID: 0}
+  pvEnemigo: {fileID: 0}
 --- !u!195 &2058071250
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6940,6 +7022,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5373207258788968643, guid: 620e8b6ae953f064990346104979c303, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3860391611604618248, guid: 620e8b6ae953f064990346104979c303, type: 3}
       propertyPath: m_Name
       value: Enemigo
@@ -7182,7 +7268,7 @@ GameObject:
   - component: {fileID: 9069512989583262154}
   - component: {fileID: 9069512989583262155}
   - component: {fileID: 9069512989583262158}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}

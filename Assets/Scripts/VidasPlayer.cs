@@ -1,73 +1,117 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
-public class VidasPlayer : MonoBehaviour{
-	
+public class VidasPlayer : MonoBehaviour
+{
 	public Image vidaPlayer;
 	private float anchoVidasPlayer;
-	public static int vida;
+	public int vida; 
 	private bool haMuerto;
 	public GameObject gameOver;
 	private const int vidaINI = 5;
-	public static int puedePerderVida = 1;
-	
+	public int puedePerderVida = 1;
+
 	public Text txtPuntos;
 	public Text txtRecord;
 	public Text nombreR;
-	
-	public GameObject fm;	//Instancia del filemanager para acceder al metodo SaveToFile
-	
-    void Start(){
-		txtPuntos = GameObject.Find("txtPuntos").GetComponent<Text>();
-		vidaPlayer = GameObject.Find("VidaPlayer").GetComponent<Image>();
+
+	public GameObject fm;
+
+	private PhotonView pv;
+
+	void Start()
+	{
+		Debug.Log("gameOver encontrado: " + gameOver);
+		Debug.Log("nombreR encontrado: " + nombreR);
+		Debug.Log("txtPuntos encontrado: " + txtPuntos);
+
+		pv = GetComponent<PhotonView>();
+
+		if (PhotonNetwork.InRoom && !pv.IsMine)
+			return;
+
+		txtPuntos = GameObject.Find("txtPuntos")?.GetComponent<Text>();
+		vidaPlayer = GameObject.Find("VidaPlayer")?.GetComponent<Image>();
 		gameOver = GameObject.Find("GameOver");
 		fm = GameObject.Find("FileManager");
-		Debug.Log("txtPuntos: " + txtPuntos);
-		Debug.Log("vidaPlayer: " + vidaPlayer);
-		Debug.Log("gameOver: " + gameOver);
-		Debug.Log("fm: " + fm);
-	    anchoVidasPlayer = vidaPlayer.GetComponent<RectTransform>().sizeDelta.x;
-	    haMuerto = false;
-	    vida = vidaINI;
-	    gameOver.SetActive(false);
-	    
-	    txtRecord.text = "Record: " + FileManager.record.ToString();	//Imprime el record en pantalla
-	    nombreR.text = FileManager.nombreR;	//Nombre del poseedor del record
-    }
-    
-	private void Update(){
-		txtPuntos.text = "Puntos: " + ManagerDisparo.puntosPlayer.ToString();	//Actualizacion de los puntos de la partida 
+
+		txtRecord = GameObject.Find("txtRecord")?.GetComponent<Text>();
+		nombreR = GameObject.Find("txtNombre")?.GetComponent<Text>();
+
+
+		if (vidaPlayer != null)
+			anchoVidasPlayer = vidaPlayer.GetComponent<RectTransform>().sizeDelta.x;
+
+		haMuerto = false;
+		vida = vidaINI;
+
+		if (gameOver != null)
+			gameOver.SetActive(false);
+
+		if (txtRecord != null)
+			txtRecord.text = "Record: " + FileManager.record.ToString();
+
+		if (nombreR != null)
+			nombreR.text = FileManager.nombreR;
+		
 	}
 
-	public void TomarDaño(int daño){
-		if(vida > 0 && puedePerderVida == 1){
+	private void Update()
+	{
+		if (PhotonNetwork.InRoom && !pv.IsMine)
+			return;
+
+		if (txtPuntos != null)
+			txtPuntos.text = "Puntos: " + ManagerDisparo.puntosPlayer.ToString();
+			
+	}
+
+	public void TomarDaño(int daño)
+	{
+		
+		if (PhotonNetwork.InRoom && !pv.IsMine)
+			return;
+
+		if (vida > 0 && puedePerderVida == 1)
+		{
 			puedePerderVida = 0;
 			vida -= daño;
 			DibujaVida(vida);
 		}
-		
-		if(vida <= 0 && !haMuerto){
+
+		if (vida <= 0 && !haMuerto)
+		{
 			haMuerto = true;
-			if(ManagerDisparo.puntosPlayer > FileManager.record){	//Si se rompe el record
-				fm.GetComponent<FileManager>().SaveToFile();	//Se actualiza el archivo de records
+
+			if (ManagerDisparo.puntosPlayer > FileManager.record && fm != null)
+			{
+				fm.GetComponent<FileManager>().SaveToFile();
 			}
+
 			StartCoroutine(EjecutaMuerte());
 		}
-		
 	}
-	
-	private void DibujaVida(int vida){
+
+	private void DibujaVida(int vida)
+	{
+		if (vidaPlayer == null) return;
+
 		RectTransform transformaImagen = vidaPlayer.GetComponent<RectTransform>();
-		transformaImagen.sizeDelta = new Vector2(anchoVidasPlayer * (float)vida / (float)vidaINI ,transformaImagen.sizeDelta.y);
+		transformaImagen.sizeDelta = new Vector2(
+			anchoVidasPlayer * (float)vida / (float)vidaINI,
+			transformaImagen.sizeDelta.y
+		);
 	}
-	
-	IEnumerator EjecutaMuerte(){
-		gameOver.SetActive(true);
-		yield return new WaitForSeconds(1.2f);
+
+	IEnumerator EjecutaMuerte()
+	{
+		if (gameOver != null)
+			gameOver.SetActive(true);
+
+		yield return new WaitForSeconds(2.2f);
 		SceneManager.LoadScene("Menu");
 	}
-	
 }

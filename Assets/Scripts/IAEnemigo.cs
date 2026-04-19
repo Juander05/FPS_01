@@ -18,7 +18,7 @@ public class IAEnemigo : MonoBehaviour{
 	void Start(){
     	
 		player = GameObject.Find("PlayerCapsule");
-		hordas = GameObject.Find("HORDAS").GetComponent<Hordas>();
+		hordas = GameObject.Find("Hordas").GetComponent<Hordas>();
 		dist = Vector3.Distance(player.transform.position, transform.position);
 		agente.speed = Random.RandomRange(1,5); 
 		vidaEnemigo = 1;
@@ -33,38 +33,65 @@ public class IAEnemigo : MonoBehaviour{
 		} else {
 			tiempSigAtaque = 0;
 			agente.SetDestination(player.transform.position);
-			VidasPlayer.puedePerderVida = 1;
 		}
         
 	}
     
-	private void OnTriggerEnter(Collider obj){
-		if(obj.tag == "Player"){ 
-			tiempSigAtaque = frecAtaque;
-			iniciaConteo = Time.time;
-			obj.transform.GetComponentInChildren<VidasPlayer>().TomarDaño(1);
+	private void OnTriggerEnter(Collider obj)
+	{
+		if (obj.CompareTag("Player"))
+		{
+			VidasPlayer vp = obj.GetComponentInChildren<VidasPlayer>();
+			PhotonView pvPlayer = obj.GetComponent<PhotonView>();
+
+			if (vp != null)
+			{
+				// Solo el dueño del player recibe daño
+				if (!PhotonNetwork.InRoom || pvPlayer.IsMine)
+				{
+					vp.puedePerderVida = 1;
+					vp.TomarDaño(1);
+				}
+			}
 		}
 	}
 	
 
 	public void TomarDaño(int daño){
-		pvEnemigo.RPC("AplicarDemo", RpcTarget.All, daño, pvEnemigo.ViewID);		
+		Debug.Log("Se llamó TomarDaño en enemigo " + pvEnemigo.ViewID);
+		if (PhotonNetwork.InRoom)
+		{
+			pvEnemigo.RPC("AplicarDemo", RpcTarget.MasterClient, daño, pvEnemigo.ViewID);
+		}
+		else
+		{
+			AplicarDemo(daño, pvEnemigo.ViewID);
+		}		
 	}
 
 	[PunRPC]
-	public void AplicarDemo(int daño,int viewID)
+	public void AplicarDemo(int daño, int viewID)
 	{
+		// En online: solo el Master procesa
+		if (PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient)
+			return;
+
 		if (pvEnemigo.ViewID == viewID)
 		{
 			vidaEnemigo -= daño;
+			Debug.Log("Vida enemigo: " + vidaEnemigo);
+
 			if (vidaEnemigo <= 0)
 			{
-				if(!PhotonNetwork.InRoom || (PhotonNetwork.IsMasterClient && pvEnemigo.IsMine))
-				{
-					Debug.Log("Decrementa en Horda");
-					hordas.enemigosVivos--;
-				}
-				Destroy(gameObject);				
+				Debug.Log("ENEMIGO MUERTO");
+
+				hordas.enemigosVivos--;
+				Debug.Log("Enemigos vivos ahora: " + hordas.enemigosVivos);
+
+				if (PhotonNetwork.InRoom)
+					PhotonNetwork.Destroy(gameObject);
+				else
+					Destroy(gameObject);
 			}
 		}
 	}

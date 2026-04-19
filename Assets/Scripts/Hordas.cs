@@ -10,21 +10,27 @@ public class Hordas : MonoBehaviour{
 	public GameObject [] puntosDeSpawn;
 	//public GameObject prefabEnemigo;
 	public PhotonView pv;
-    void Start(){
-	    numRonda = 0;
-    }
+	void Start(){
+		numRonda = 0;
+	}
 
-    void Update(){
-		if(!PhotonNetwork.InRoom || (PhotonNetwork.IsMasterClient && pv.IsMine)){
+	void Update(){
+		if(!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient){
+			Debug.Log("Enemigos vivos (Update): " + enemigosVivos);
 			if (enemigosVivos == 0){
+				Debug.Log("INICIANDO NUEVA RONDA");
 				numRonda++;
 				SiguienteOleada(numRonda);
 			}
 		}
-    }
+	}
     
 	private void SiguienteOleada(int ronda){
+		Debug.Log("Generando ronda: " + ronda);
+
 		for (int i = 0; i < ronda; i++){
+			Debug.Log("Spawneando enemigo " + i);
+
 			int randomPos = Random.Range(0, puntosDeSpawn.Length);
 			GameObject puntoEmision = puntosDeSpawn[randomPos];
 			GameObject instanciaEnemigo;
@@ -38,6 +44,8 @@ public class Hordas : MonoBehaviour{
 			}
 			instanciaEnemigo.GetComponent<IAEnemigo>().hordas = GetComponent<Hordas>();
 			enemigosVivos++;
+			Debug.Log("Enemigos vivos tras spawn: " + enemigosVivos);
+
 		}
 	}
 }

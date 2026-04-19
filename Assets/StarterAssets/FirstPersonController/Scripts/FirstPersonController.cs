@@ -119,11 +119,11 @@ namespace StarterAssets
 		{
 			if (PhotonNetwork.InRoom && pv.IsMine)
 			{
-				Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber.ToString());
+				//Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber.ToString());
 			}
 			else
 			{
-				Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber.ToString());
+				//Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber.ToString());
 			}
 			if (PhotonNetwork.InRoom && !pv.IsMine)
 			{
@@ -136,12 +136,16 @@ namespace StarterAssets
 
 		private void LateUpdate()
 		{
+			if (PhotonNetwork.InRoom && !pv.IsMine)
+				return;
+
 			if (PhotonNetwork.InRoom && pv.IsMine)
 			{
 				vcam.enabled = true;
 				vcam.Priority = 21;
 				_mainCamera.SetActive(true);
 			}
+
 			CameraRotation();
 		}
 
@@ -154,12 +158,12 @@ namespace StarterAssets
 
 		private void CameraRotation()
 		{
+			
 			// if there is an input
 			if (_input.look.sqrMagnitude >= _threshold)
 			{
 				//Don't multiply mouse input by Time.deltaTime
-				float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
-				
+				float deltaTimeMultiplier = 1.0f;				
 				_cinemachineTargetPitch += _input.look.y * RotationSpeed * deltaTimeMultiplier;
 				_rotationVelocity = _input.look.x * RotationSpeed * deltaTimeMultiplier;
 
